@@ -8,7 +8,7 @@ class AppSettings extends ChangeNotifier {
     'password': 'Triste',
   };
 
-  Map<String, String> get logindata  {
+  Map<String, String> get logindata {
     _startSetting();
     return _logindata;
   }
@@ -21,17 +21,17 @@ class AppSettings extends ChangeNotifier {
     _startSetting();
   }
 
-  _startSetting() async {
+  Future<void> _startSetting() async {
     await _openbox();
-    await _readData();
+    _readData();
   }
 
   Future<void> _openbox() async {
     box = Hive.box('logindata');
-    await _readData();
+    _readData();
   }
 
-  _readData() {
+  void _readData() {
     final registration = box.get('registration') ?? '';
     final senha = box.get('password') ?? '';
 
@@ -42,10 +42,10 @@ class AppSettings extends ChangeNotifier {
     notifyListeners();
   }
 
-  setData(String registration, String pass) async {
+  Future<void> setData(String registration, String pass) async {
     await box.put('registration', registration);
     await box.put('password', pass);
-    await _readData();
+    _readData();
     notifyListeners();
   }
 }

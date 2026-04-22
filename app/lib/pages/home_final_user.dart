@@ -1,15 +1,13 @@
-import 'package:app/pages/Reservations_page.dart';
 import 'package:app/pages/loan_page.dart';
+import 'package:app/pages/reservations_page.dart';
 // import 'package:app/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:provider/provider.dart';
-
 import '/assets/theme/flutter_flow_theme.dart';
 import 'consult_colletion_page.dart';
 
 class HomeFinalUse extends StatefulWidget {
-  const HomeFinalUse({Key? key}) : super(key: key);
+  const HomeFinalUse({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -75,7 +73,7 @@ class _HomeFinalUseState extends State<HomeFinalUse> {
     // });
   }
 
-  setPaginaAtual(pagina) {
+  void setPaginaAtual(pagina) {
     setState(() {
       paginaAtual = pagina;
     });
@@ -113,11 +111,11 @@ class _HomeFinalUseState extends State<HomeFinalUse> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: FaIcon(
+            icon: Icon(
               Icons.search,
               size: 20.0,
             ),
-            activeIcon: FaIcon(
+            activeIcon: Icon(
               Icons.saved_search,
               size: 30.0,
             ),
@@ -125,11 +123,11 @@ class _HomeFinalUseState extends State<HomeFinalUse> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
+            icon: Icon(
               Icons.auto_stories_outlined,
               size: 22.0,
             ),
-            activeIcon: FaIcon(
+            activeIcon: Icon(
               Icons.auto_stories_rounded,
               size: 26.0,
             ),

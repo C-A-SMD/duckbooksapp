@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../assets/theme/flutter_flow_theme.dart';
 
 class ValidationPage extends StatefulWidget {
-  const ValidationPage({Key? key}) : super(key: key);
+  const ValidationPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -24,12 +24,16 @@ class _ValidationPageState extends State<ValidationPage> {
   int linhas =
       10; // validationQuest.lenght | vQ[dateR] vQ[status] vQ[reader/Allowing] Disponibilidade não nprecisa ser uma valiavel real
 
-  getValidation() async {
+  Future<List<Map<String, dynamic>>> getValidation() async {
     List<Map<String, dynamic>> validations = [];
     setState(() {
       isLoading = true;
     });
-    await firebaseFirestore.collection('validation').where('status', isEqualTo: false).get().then(
+    await firebaseFirestore
+        .collection('validation')
+        .where('status', isEqualTo: false)
+        .get()
+        .then(
       (value) {
         for (var docSnapshot in value.docs) {
           validations.add(docSnapshot.data());
@@ -75,7 +79,8 @@ class _ValidationPageState extends State<ValidationPage> {
             style: FlutterFlowTheme.of(context).displayLarge.override(
                   fontFamily: FlutterFlowTheme.of(context).displayLargeFamily,
                   color: FlutterFlowTheme.of(context).onBackground,
-                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).displayLargeFamily),
+                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                      FlutterFlowTheme.of(context).displayLargeFamily),
                 ),
           ),
           actions: const [],
@@ -103,12 +108,14 @@ class _ValidationPageState extends State<ValidationPage> {
                             ),
                           )
                         : Padding(
-                            padding: const EdgeInsetsDirectional.only(top: 16, end: 8, start: 8),
+                            padding: const EdgeInsetsDirectional.only(
+                                top: 16, end: 8, start: 8),
                             child: Container(
                               width: double.infinity,
                               height: MediaQuery.of(context).size.height * 0.86,
                               decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
                                 borderRadius: BorderRadius.circular(16.0),
                               ),
                               child: DataTable2(
@@ -121,11 +128,21 @@ class _ValidationPageState extends State<ValidationPage> {
                                       width: 110,
                                       child: Text(
                                         'Matrícula',
-                                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                                              fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                              color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLargeFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .onSecondaryContainer,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleLargeFamily),
                                             ),
                                         textAlign: TextAlign.start,
                                       ),
@@ -140,11 +157,21 @@ class _ValidationPageState extends State<ValidationPage> {
                                       width: 130,
                                       child: Text(
                                         'Data do Pedido',
-                                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                                              fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                              color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLargeFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .onSecondaryContainer,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleLargeFamily),
                                             ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -156,11 +183,21 @@ class _ValidationPageState extends State<ValidationPage> {
                                       width: 90,
                                       child: Text(
                                         'Status',
-                                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                                              fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                              color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLargeFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .onSecondaryContainer,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleLargeFamily),
                                             ),
                                         textAlign: TextAlign.end,
                                       ),
@@ -173,24 +210,46 @@ class _ValidationPageState extends State<ValidationPage> {
                                     cells: [
                                       DataCell(
                                         Text(
-                                          validationQuests[index]['userReaderId'],
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                                useGoogleFonts: GoogleFonts.asMap()
-                                                    .containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
+                                          validationQuests[index]
+                                              ['userReaderId'],
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMediumFamily),
                                               ),
                                         ),
                                       ),
                                       DataCell(SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          validationQuests[index]['dateRequest'],
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                                useGoogleFonts: GoogleFonts.asMap()
-                                                    .containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
+                                          validationQuests[index]
+                                              ['dateRequest'],
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMediumFamily),
                                               ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -207,77 +266,135 @@ class _ValidationPageState extends State<ValidationPage> {
                                               onPressed: () {
                                                 showDialog<bool>(
                                                   context: context,
-                                                  builder: (alertDialogContext) {
+                                                  builder:
+                                                      (alertDialogContext) {
                                                     return AlertDialog(
-                                                      title: const Text('Confirmar Validação de usuário'),
+                                                      title: const Text(
+                                                          'Confirmar Validação de usuário'),
                                                       content: SizedBox(
                                                         height: 300,
                                                         child: Column(
                                                           children: [
                                                             const Padding(
-                                                              padding: EdgeInsets.all(16.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          16.0),
                                                               child: Icon(
-                                                                Icons.sd_card_alert_outlined,
+                                                                Icons
+                                                                    .sd_card_alert_outlined,
                                                                 size: 100,
                                                               ),
                                                             ),
                                                             const Text(
                                                                 'Você confirma que esse cadastro é de um discente/docente do SMD?'),
                                                             Padding(
-                                                              padding: const EdgeInsets.all(8.0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
                                                               child: Container(
-                                                                width: double.infinity,
+                                                                width: double
+                                                                    .infinity,
                                                                 height: 30,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.rectangle,
-                                                                  borderRadius: BorderRadius.circular(8),
-                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
                                                                 ),
-                                                                alignment: Alignment.center,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
                                                                 child: Text(
-                                                                  validationQuests[index]['userReaderId'],
-                                                                  style: const TextStyle(fontSize: 24),
+                                                                  validationQuests[
+                                                                          index]
+                                                                      [
+                                                                      'userReaderId'],
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          24),
                                                                 ),
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.all(8.0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
                                                               child: Container(
-                                                                width: double.infinity,
+                                                                width: double
+                                                                    .infinity,
                                                                 height: 30,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.rectangle,
-                                                                  borderRadius: BorderRadius.circular(8),
-                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
                                                                 ),
-                                                                alignment: Alignment.center,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
                                                                 child: Text(
-                                                                  validationQuests[index]['dateRequest'],
-                                                                  style: const TextStyle(fontSize: 24),
+                                                                  validationQuests[
+                                                                          index]
+                                                                      [
+                                                                      'dateRequest'],
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          24),
                                                                 ),
                                                               ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
-                                                      actionsAlignment: MainAxisAlignment.spaceBetween,
+                                                      actionsAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       actions: [
                                                         TextButton(
-                                                          onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                          child: const Text('Cancelar'),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: const Text(
+                                                              'Cancelar'),
                                                         ),
                                                         TextButton(
                                                           onPressed: () async {
                                                             setState(() async {
-                                                              await context.read<AuthService>().confirmValidation(
-                                                                  validationQuests[index]['userReaderId'],
-                                                                  validationQuests[index]);
-                                                              Navigator.pop(alertDialogContext, true);
+                                                              await context
+                                                                  .read<
+                                                                      AuthService>()
+                                                                  .confirmValidation(
+                                                                      validationQuests[
+                                                                              index]
+                                                                          [
+                                                                          'userReaderId'],
+                                                                      validationQuests[
+                                                                          index]);
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true);
                                                             });
                                                           },
                                                           child: Text(
                                                             'Confirmar',
-                                                            style: TextStyle(color: FlutterFlowTheme.of(context).success),
+                                                            style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .success),
                                                           ),
                                                         ),
                                                       ],
@@ -287,28 +404,50 @@ class _ValidationPageState extends State<ValidationPage> {
                                               },
                                               style: OutlinedButton.styleFrom(
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(24),
+                                                  borderRadius:
+                                                      BorderRadius.circular(24),
                                                 ),
-                                                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                                backgroundColor: FlutterFlowTheme.of(context).secondaryContainer,
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 0, 0, 0),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryContainer,
                                                 // foregroundColor: FlutterFlowTheme.of(context).onTertiaryContainer,
                                                 elevation: 2,
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Icon(Icons.check_rounded,
-                                                      color: FlutterFlowTheme.of(context).onSecondaryContainer, size: 20),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .onSecondaryContainer,
+                                                      size: 20),
                                                   Padding(
-                                                    padding: EdgeInsets.all(3.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            3.0),
                                                     child: Text(
                                                       'Validar',
-                                                      style: FlutterFlowTheme.of(context).titleLarge.override(
-                                                            fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                                            color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                                            useGoogleFonts: GoogleFonts.asMap()
-                                                                .containsKey(FlutterFlowTheme.of(context).titleLargeFamily),
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleLarge
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleLargeFamily,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .onSecondaryContainer,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .titleLargeFamily),
+                                                              ),
                                                     ),
                                                   ),
                                                 ],
@@ -320,12 +459,14 @@ class _ValidationPageState extends State<ValidationPage> {
                                     ],
                                   ),
                                 ),
-                                headingRowColor: MaterialStateProperty.all(
-                                  FlutterFlowTheme.of(context).secondaryContainer,
+                                headingRowColor: WidgetStateProperty.all(
+                                  FlutterFlowTheme.of(context)
+                                      .secondaryContainer,
                                 ),
                                 headingRowHeight: 56.0,
-                                dataRowColor: MaterialStateProperty.all(
-                                  FlutterFlowTheme.of(context).secondaryBackground,
+                                dataRowColor: WidgetStateProperty.all(
+                                  FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
                                 ),
                                 dataRowHeight: 56.0,
                                 border: TableBorder(

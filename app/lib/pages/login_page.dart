@@ -16,7 +16,7 @@ import '/assets/theme/flutter_flow_theme.dart';
 import 'help_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   // * Firebase User Autentication
   User? user = FirebaseAuth.instance.currentUser;
 
-  setLoginData() async {
+  Future<void> setLoginData() async {
     Map<String, String> datalogin =
         Provider.of<AppSettings>(context, listen: false).logindata;
     texMatriculaController!.text = datalogin['registration'] ?? '';

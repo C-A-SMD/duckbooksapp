@@ -6,7 +6,7 @@ import '/assets/theme/flutter_flow_theme.dart';
 import '../services/auth_service.dart';
 
 class DuckAppBar extends StatelessWidget {
-  const DuckAppBar({Key? key, required this.scaffoldKey}) : super(key: key);
+  const DuckAppBar({super.key, required this.scaffoldKey});
 
   final GlobalKey<ScaffoldState>? scaffoldKey;
 

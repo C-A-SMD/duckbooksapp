@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../assets/theme/flutter_flow_theme.dart';
 
 class ManageUsersPage extends StatefulWidget {
-  const ManageUsersPage({Key? key}) : super(key: key);
+  const ManageUsersPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -22,7 +22,7 @@ bool isLoading = false;
 List<Map<String, dynamic>> usersData = [];
 
 class _ManageUsersPageState extends State<ManageUsersPage> {
-  getUserData() async {
+  Future<List<Map<String, dynamic>>> getUserData() async {
     List<Map<String, dynamic>> users = [];
     setState(() {
       isLoading = true;
@@ -367,12 +367,12 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
                                     ],
                                   ),
                                 ),
-                                headingRowColor: MaterialStateProperty.all(
+                                headingRowColor: WidgetStateProperty.all(
                                   FlutterFlowTheme.of(context)
                                       .secondaryContainer,
                                 ),
                                 headingRowHeight: 56.0,
-                                dataRowColor: MaterialStateProperty.all(
+                                dataRowColor: WidgetStateProperty.all(
                                   FlutterFlowTheme.of(context)
                                       .secondaryBackground,
                                 ),

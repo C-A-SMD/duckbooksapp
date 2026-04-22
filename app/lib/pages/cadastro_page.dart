@@ -12,7 +12,7 @@ import '/assets/theme/flutter_flow_theme.dart';
 import 'help_page.dart';
 
 class CadastroPage extends StatefulWidget {
-  const CadastroPage({Key? key}) : super(key: key);
+  const CadastroPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api

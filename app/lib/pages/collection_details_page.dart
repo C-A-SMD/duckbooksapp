@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '/assets/theme/flutter_flow_theme.dart';
 
 class CollectionDetailsPage extends StatefulWidget {
-  const CollectionDetailsPage({Key? key, required this.book}) : super(key: key);
+  const CollectionDetailsPage({super.key, required this.book});
   final Map<String, dynamic> book;
 
   @override
@@ -41,7 +41,9 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
   }
 
   String truncateWithEllipsis(int cutoff, String myString) {
-    return (myString.length <= cutoff) ? myString : '${myString.substring(0, cutoff)}...';
+    return (myString.length <= cutoff)
+        ? myString
+        : '${myString.substring(0, cutoff)}...';
   }
 
   Future<bool> checkBorrowed(String book) async {
@@ -50,7 +52,7 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
     });
   }
 
-  checkReserved(String book) async {
+  Future<dynamic> checkReserved(String book) async {
     return await context.read<AuthService>().hasReservation(book).then(
       (value) {
         return value;
@@ -58,7 +60,7 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
     );
   }
 
-  checkReservationIsThisUser(String book) async {
+  Future<dynamic> checkReservationIsThisUser(String book) async {
     return await context.read<AuthService>().isReservationUser(book).then(
       (value) {
         return value;
@@ -89,7 +91,8 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
             style: FlutterFlowTheme.of(context).displayLarge.override(
                   fontFamily: FlutterFlowTheme.of(context).displayLargeFamily,
                   color: FlutterFlowTheme.of(context).onBackground,
-                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).displayLargeFamily),
+                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                      FlutterFlowTheme.of(context).displayLargeFamily),
                 ),
           ),
           actions: const [],
@@ -115,15 +118,19 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 8, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: Image.network(
-                                  (book['foto'] == 'Colocar' || book['foto'] == 'null')
+                                  (book['foto'] == 'Colocar' ||
+                                          book['foto'] == 'null')
                                       ? 'https://picsum.photos/seed/701/600'
                                       : book['foto'],
-                                  width: MediaQuery.of(context).size.width * 0.25,
-                                  height: MediaQuery.of(context).size.height * 0.19,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.19,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -136,15 +143,24 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                 Align(
                                   alignment: const AlignmentDirectional(-1, 0),
                                   child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 4, 0, 0),
                                     child: Text(
                                       'Ver capa',
                                       textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                            fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                            decoration: TextDecoration.underline,
-                                            useGoogleFonts:
-                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyLargeFamily),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyLargeFamily,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLargeFamily),
                                           ),
                                     ),
                                   ),
@@ -172,23 +188,34 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                   Expanded(
                                     child: Text(
                                       truncateWithEllipsis(40, book['nome']),
-                                      style: FlutterFlowTheme.of(context).headlineLarge,
+                                      style: FlutterFlowTheme.of(context)
+                                          .headlineLarge,
                                     ),
                                   ),
                                   (context.read<AuthService>().isAdm)
                                       ? Padding(
-                                          padding: const EdgeInsets.only(left: 0), // Mudar pra não quiebrar
+                                          padding: const EdgeInsets.only(
+                                              left:
+                                                  0), // Mudar pra não quiebrar
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => EditBookPage(book: book)));
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditBookPage(
+                                                              book: book)));
                                             },
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional.all(4),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .all(4),
                                               child: Icon(
                                                 Icons.edit_square,
                                                 size: 24,
-                                                color: FlutterFlowTheme.of(context).secondary,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
                                               ),
                                             ),
                                           ),
@@ -204,7 +231,8 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                   Expanded(
                                     child: Text(
                                       'Autor: ${truncateWithEllipsis(40, book['autor'])}',
-                                      style: FlutterFlowTheme.of(context).titleLarge,
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleLarge,
                                     ),
                                   ),
                                 ],
@@ -255,24 +283,32 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                       ),
                       alignment: const AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                         child: Text(
                           // TODO Fazer lógica para dizer disponibilidade
                           (book['dataDisponibilidade'].toString() == 'null')
                               ? 'Disponível'
                               : 'Previsão de Disponibilidade:\n${book['dataDisponibilidade'].toString().substring(0, 10)}',
                           textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context).titleLarge.override(
-                                fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                color: FlutterFlowTheme.of(context).onBackground,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily),
+                          style: FlutterFlowTheme.of(context)
+                              .titleLarge
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .titleLargeFamily,
+                                color:
+                                    FlutterFlowTheme.of(context).onBackground,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .titleLargeFamily),
                               ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 28),
-                  (book['userloan'].toString() == 'null' && (!isReserved || isreservedbyUser))
+                  (book['userloan'].toString() == 'null' &&
+                          (!isReserved || isreservedbyUser))
                       ? Padding(
                           padding: const EdgeInsetsDirectional.only(top: 16),
                           child: (!isBorrow)
@@ -282,7 +318,8 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                       context: context,
                                       builder: (alertDialogContext) {
                                         return AlertDialog(
-                                          title: const Text('Confirmar Validação de usuário'),
+                                          title: const Text(
+                                              'Confirmar Validação de usuário'),
                                           content: const SizedBox(
                                             height: 150,
                                             child: Column(
@@ -290,32 +327,46 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                                 Padding(
                                                   padding: EdgeInsets.all(16.0),
                                                   child: Icon(
-                                                    Icons.connect_without_contact_rounded,
+                                                    Icons
+                                                        .connect_without_contact_rounded,
                                                     size: 80,
                                                   ),
                                                 ),
-                                                Text('Deseja realizar uma solicitação de Empréstimo?'),
+                                                Text(
+                                                    'Deseja realizar uma solicitação de Empréstimo?'),
                                               ],
                                             ),
                                           ),
-                                          actionsAlignment: MainAxisAlignment.spaceBetween,
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           actions: [
                                             TextButton(
-                                              onPressed: () => Navigator.pop(alertDialogContext, false),
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext, false),
                                               child: const Text('Cancelar'),
                                             ),
                                             TextButton(
                                               onPressed: () async {
-                                                await context.read<AuthService>().sendBorrowRequest(book['codigo']);
+                                                await context
+                                                    .read<AuthService>()
+                                                    .sendBorrowRequest(
+                                                        book['codigo']);
                                                 (isreservedbyUser)
-                                                    ? context.read<AuthService>().finishReservation(book['codigo'])
+                                                    ? context
+                                                        .read<AuthService>()
+                                                        .finishReservation(
+                                                            book['codigo'])
                                                     : null;
-                                                Navigator.pop(alertDialogContext, true);
+                                                Navigator.pop(
+                                                    alertDialogContext, true);
                                                 setState(() {});
                                               },
                                               child: Text(
                                                 'Confirmar',
-                                                style: TextStyle(color: FlutterFlowTheme.of(context).secondary),
+                                                style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondary),
                                               ),
                                             ),
                                           ],
@@ -328,10 +379,16 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     fixedSize: const Size(double.infinity, 50),
-                                    backgroundColor: FlutterFlowTheme.of(context).primaryContainer,
-                                    foregroundColor: FlutterFlowTheme.of(context).overlayPrimary,
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryContainer,
+                                    foregroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .overlayPrimary,
                                     elevation: 3,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 0),
                                     textStyle: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,
@@ -343,18 +400,29 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                     children: [
                                       Icon(
                                         Icons.connect_without_contact_rounded,
-                                        color: FlutterFlowTheme.of(context).onPrimaryContainer,
+                                        color: FlutterFlowTheme.of(context)
+                                            .onPrimaryContainer,
                                         size: 40,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           'Solicitar Empréstimo',
-                                          style: FlutterFlowTheme.of(context).titleSmall.override(
-                                                fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                color: FlutterFlowTheme.of(context).onPrimaryContainer,
-                                                useGoogleFonts: GoogleFonts.asMap()
-                                                    .containsKey(FlutterFlowTheme.of(context).titleSmallFamily),
+                                          style: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .onPrimaryContainer,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmallFamily),
                                               ),
                                         ),
                                       ),
@@ -368,9 +436,13 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     fixedSize: const Size(230, 50),
-                                    backgroundColor: FlutterFlowTheme.of(context).primaryContainer,
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryContainer,
                                     elevation: 3,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 0),
                                     textStyle: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,
@@ -382,18 +454,29 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                     children: [
                                       Icon(
                                         Icons.connect_without_contact_rounded,
-                                        color: FlutterFlowTheme.of(context).onPrimaryContainer,
+                                        color: FlutterFlowTheme.of(context)
+                                            .onPrimaryContainer,
                                         size: 40,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           'Empréstimo Já Solicitado',
-                                          style: FlutterFlowTheme.of(context).titleSmall.override(
-                                                fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                color: FlutterFlowTheme.of(context).onPrimaryContainer,
-                                                useGoogleFonts: GoogleFonts.asMap()
-                                                    .containsKey(FlutterFlowTheme.of(context).titleSmallFamily),
+                                          style: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .onPrimaryContainer,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmallFamily),
                                               ),
                                         ),
                                       ),
@@ -407,10 +490,13 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                   (isReserved)
                       ? (isreservedbyUser)
                           ? Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 16, 0, 16),
                               child: TextButton(
                                 onPressed: () async {
-                                  await context.read<AuthService>().cancelReservation(book['codigo']);
+                                  await context
+                                      .read<AuthService>()
+                                      .cancelReservation(book['codigo']);
                                   setState(() {
                                     isReserved = false;
                                     isreservedbyUser = false;
@@ -421,9 +507,11 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   fixedSize: const Size(double.infinity, 48),
-                                  backgroundColor: FlutterFlowTheme.of(context).accent2,
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).accent2,
                                   elevation: 3,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
                                   textStyle: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
@@ -436,18 +524,29 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                   children: [
                                     Icon(
                                       Icons.bookmark_remove,
-                                      color: FlutterFlowTheme.of(context).secondaryContainer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryContainer,
                                       size: 20,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         'Cancelar Reserva',
-                                        style: FlutterFlowTheme.of(context).titleSmall.override(
-                                              fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                              color: FlutterFlowTheme.of(context).secondaryContainer,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleSmallFamily),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryContainer,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmallFamily),
                                             ),
                                       ),
                                     ),
@@ -456,7 +555,8 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                               ),
                             )
                           : Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 16, 0, 16),
                               child: TextButton(
                                 onPressed: () async {},
                                 style: OutlinedButton.styleFrom(
@@ -464,9 +564,11 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   fixedSize: const Size(190, 40),
-                                  backgroundColor: FlutterFlowTheme.of(context).accent2,
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).accent2,
                                   elevation: 3,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
                                   textStyle: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
@@ -479,18 +581,29 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                   children: [
                                     Icon(
                                       Icons.bookmark_outlined,
-                                      color: FlutterFlowTheme.of(context).tertiary,
+                                      color:
+                                          FlutterFlowTheme.of(context).tertiary,
                                       size: 20,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         'Obra Já Reservada',
-                                        style: FlutterFlowTheme.of(context).titleSmall.override(
-                                              fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                              color: FlutterFlowTheme.of(context).tertiary,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleSmallFamily),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .tertiary,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmallFamily),
                                             ),
                                       ),
                                     ),
@@ -500,7 +613,8 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                             )
                       : Padding(
                           // if book[cod]+ reservation = Solicitado: Livro já solicitado
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0, 16, 0, 16),
                           child: TextButton(
                             onPressed: () async {
                               context.read<AuthService>().doReservation(book);
@@ -514,9 +628,11 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               fixedSize: const Size(double.infinity, 48),
-                              backgroundColor: FlutterFlowTheme.of(context).secondaryContainer,
+                              backgroundColor: FlutterFlowTheme.of(context)
+                                  .secondaryContainer,
                               elevation: 3,
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
                               textStyle: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 16,
@@ -529,18 +645,26 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                               children: [
                                 Icon(
                                   Icons.bookmark_outlined,
-                                  color: FlutterFlowTheme.of(context).onSecondaryContainer,
+                                  color: FlutterFlowTheme.of(context)
+                                      .onSecondaryContainer,
                                   size: 25,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     'Reservar',
-                                    style: FlutterFlowTheme.of(context).titleSmall.override(
-                                          fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                          color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                          useGoogleFonts:
-                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleSmallFamily),
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmallFamily,
+                                          color: FlutterFlowTheme.of(context)
+                                              .onSecondaryContainer,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily),
                                         ),
                                   ),
                                 ),

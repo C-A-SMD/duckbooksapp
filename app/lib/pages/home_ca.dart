@@ -1,14 +1,12 @@
-import 'package:app/pages/Reservations_page.dart';
 import 'package:app/pages/loan_page.dart';
+import 'package:app/pages/reservations_page.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '/assets/theme/flutter_flow_theme.dart';
 import 'consult_colletion_page.dart';
 import 'home_page_ca.dart';
 
 class HomeCa extends StatefulWidget {
-  const HomeCa({Key? key}) : super(key: key);
+  const HomeCa({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -25,7 +23,7 @@ class _HomeCaState extends State<HomeCa> {
     pc = PageController(initialPage: paginaAtual);
   }
 
-  setPaginaAtual(pagina) {
+  void setPaginaAtual(pagina) {
     setState(() {
       paginaAtual = pagina;
     });
@@ -76,11 +74,11 @@ class _HomeCaState extends State<HomeCa> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
+            icon: Icon(
               Icons.search,
               size: 20.0,
             ),
-            activeIcon: FaIcon(
+            activeIcon: Icon(
               Icons.saved_search,
               size: 30.0,
             ),
@@ -88,11 +86,11 @@ class _HomeCaState extends State<HomeCa> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
+            icon: Icon(
               Icons.auto_stories_outlined,
               size: 22.0,
             ),
-            activeIcon: FaIcon(
+            activeIcon: Icon(
               Icons.auto_stories_rounded,
               size: 26.0,
             ),

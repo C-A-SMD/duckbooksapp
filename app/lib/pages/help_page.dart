@@ -5,7 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 
 class HelpPage extends StatefulWidget {
-  const HelpPage({Key? key}) : super(key: key);
+  const HelpPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -135,7 +135,7 @@ class _HelpPageState extends State<HelpPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.auto_stories_rounded,
                                           size: 80,
                                         ),
@@ -174,7 +174,7 @@ class _HelpPageState extends State<HelpPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.bookmarks_rounded,
                                           size: 80,
                                         ),
@@ -213,7 +213,7 @@ class _HelpPageState extends State<HelpPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.saved_search_rounded,
                                           size: 80,
                                         ),
@@ -288,7 +288,7 @@ class _HelpPageState extends State<HelpPage> {
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(
+                                              child: const Icon(
                                                   Icons.auto_stories_rounded),
                                             ),
                                           ),
@@ -302,8 +302,8 @@ class _HelpPageState extends State<HelpPage> {
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
-                                              child:
-                                                  Icon(Icons.bookmarks_rounded),
+                                              child: const Icon(
+                                                  Icons.bookmarks_rounded),
                                             ),
                                           ),
                                           Padding(
@@ -316,7 +316,7 @@ class _HelpPageState extends State<HelpPage> {
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(
+                                              child: const Icon(
                                                   Icons.saved_search_rounded),
                                             ),
                                           ),

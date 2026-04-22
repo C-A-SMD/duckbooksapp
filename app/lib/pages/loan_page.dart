@@ -9,7 +9,7 @@ import '../assets/theme/flutter_flow_theme.dart';
 import '../widgets/duck_app_bar.dart';
 
 class LoanPage extends StatefulWidget {
-  const LoanPage({Key? key}) : super(key: key);
+  const LoanPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -42,7 +42,7 @@ class _LoanPageState extends State<LoanPage> {
     return str;
   }
 
-  searchByName([String name = '']) async {
+  Future<void> searchByName([String name = '']) async {
     List filttedList = [];
     name = removeAccents(name.toLowerCase());
 
@@ -63,7 +63,7 @@ class _LoanPageState extends State<LoanPage> {
     });
   }
 
-  atualizarLista() async {
+  Future<void> atualizarLista() async {
     livros = await firebaseFirestore
         .collection('book')
         .where('nome', isNull: false)
@@ -286,7 +286,7 @@ class _LoanPageState extends State<LoanPage> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 left: 0.0),
                                                         child: Column(
                                                           mainAxisSize:
@@ -437,7 +437,7 @@ class _LoanPageState extends State<LoanPage> {
                                                                 elevation: 3,
                                                                 padding:
                                                                     const EdgeInsetsDirectional
-                                                                            .fromSTEB(
+                                                                        .fromSTEB(
                                                                         16,
                                                                         0,
                                                                         16,
@@ -507,8 +507,9 @@ class _LoanPageState extends State<LoanPage> {
                                                                   child: Column(
                                                                     children: [
                                                                       Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(16.0),
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            16.0),
                                                                         child:
                                                                             FaIcon(
                                                                           // ignore: deprecated_member_use
@@ -529,7 +530,8 @@ class _LoanPageState extends State<LoanPage> {
                                                                         ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsets.only(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
                                                                             top:
                                                                                 8,
                                                                             left:
@@ -612,7 +614,7 @@ class _LoanPageState extends State<LoanPage> {
                                                           elevation: 3,
                                                           padding:
                                                               const EdgeInsetsDirectional
-                                                                      .fromSTEB(
+                                                                  .fromSTEB(
                                                                   16, 0, 16, 0),
                                                           shape: const StadiumBorder(
                                                               side: BorderSide(

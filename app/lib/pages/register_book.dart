@@ -7,7 +7,7 @@ import '/assets/theme/flutter_flow_theme.dart';
 import '../services/auth_service.dart';
 
 class RegisterBook extends StatefulWidget {
-  const RegisterBook({Key? key}) : super(key: key);
+  const RegisterBook({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -184,7 +184,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                                 title:
                                                     const Text('Código ISBN'),
                                                 content: const Text(
-                                                    'Aqui você não precisa inserir dígitos como o \"-\". Basta inserir os números do código ISBN da obra.'),
+                                                    'Aqui você não precisa inserir dígitos como o "-". Basta inserir os números do código ISBN da obra.'),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -199,8 +199,8 @@ class _RegisterBookState extends State<RegisterBook> {
                                                 ],
                                               );
                                             }),
-                                        child:
-                                            Icon(Icons.info_outline_rounded)),
+                                        child: const Icon(
+                                            Icons.info_outline_rounded)),
                                   )),
                             ],
                           ),
@@ -542,7 +542,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                   // do other stuff with _category
                                   setState(() => textType = newValue);
                                 },
-                                value: textType,
+                                initialValue: textType,
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: FlutterFlowTheme.of(context)
@@ -609,7 +609,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                   // do other stuff with _category
                                   setState(() => textGenre = newValue);
                                 },
-                                value: textGenre,
+                                initialValue: textGenre,
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: FlutterFlowTheme.of(context)

@@ -9,8 +9,7 @@ import '../assets/theme/flutter_flow_theme.dart';
 
 class RegisterLoanPageWidget extends StatefulWidget {
   const RegisterLoanPageWidget(
-      {Key? key, this.userRegistration = '', this.codBook = ''})
-      : super(key: key);
+      {super.key, this.userRegistration = '', this.codBook = ''});
   final String userRegistration;
   final String codBook;
 
@@ -59,7 +58,7 @@ class _RegisterLoanPageWidgetState extends State<RegisterLoanPageWidget> {
     });
   }
 
-  setEmail({String matricula = ''}) async {
+  Future<void> setEmail({String matricula = ''}) async {
     // Talvez olocar um carregamento
     await Provider.of<AuthService>(context, listen: false)
         .getEmailByRegistration(matricula)
@@ -68,7 +67,7 @@ class _RegisterLoanPageWidgetState extends State<RegisterLoanPageWidget> {
     setState(() {});
   }
 
-  setBookdata({String cod = ''}) async {
+  Future<void> setBookdata({String cod = ''}) async {
     await Provider.of<AuthService>(context, listen: false)
         .getBookData(cod)
         .then((value) {
@@ -285,8 +284,8 @@ class _RegisterLoanPageWidgetState extends State<RegisterLoanPageWidget> {
                                                   ],
                                                 );
                                               }),
-                                          child:
-                                              Icon(Icons.info_outline_rounded)),
+                                          child: const Icon(
+                                              Icons.info_outline_rounded)),
                                     )),
                               ],
                             ),
@@ -546,7 +545,7 @@ class _RegisterLoanPageWidgetState extends State<RegisterLoanPageWidget> {
                                                       ],
                                                     );
                                                   }),
-                                              child: Icon(
+                                              child: const Icon(
                                                   Icons.info_outline_rounded)),
                                         )),
                                   ],
@@ -854,8 +853,8 @@ class _RegisterLoanPageWidgetState extends State<RegisterLoanPageWidget> {
                                                   ],
                                                 );
                                               }),
-                                          child:
-                                              Icon(Icons.info_outline_rounded)),
+                                          child: const Icon(
+                                              Icons.info_outline_rounded)),
                                     )),
                               ],
                             ),

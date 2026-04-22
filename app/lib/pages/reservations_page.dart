@@ -9,7 +9,7 @@ import '../widgets/duck_app_bar.dart';
 import 'collection_details_page.dart';
 
 class ReservationsPage extends StatefulWidget {
-  const ReservationsPage({Key? key}) : super(key: key);
+  const ReservationsPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -42,7 +42,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
     return str;
   }
 
-  searchByName([String name = '']) async {
+  Future<void> searchByName([String name = '']) async {
     List filttedList = [];
     name = removeAccents(name.toLowerCase());
 
@@ -63,7 +63,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
     });
   }
 
-  atualizarLista() async {
+  Future<void> atualizarLista() async {
     livros = await firebaseFirestore
         .collection('book')
         .where('nome', isNull: false)
@@ -401,7 +401,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
                                                                   elevation: 3,
                                                                   padding:
                                                                       const EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                          .fromSTEB(
                                                                           16,
                                                                           0,
                                                                           16,

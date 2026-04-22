@@ -8,7 +8,7 @@ import '/assets/theme/flutter_flow_theme.dart';
 import '../services/auth_service.dart';
 
 class EditBookPage extends StatefulWidget {
-  const EditBookPage({Key? key, required this.book}) : super(key: key);
+  const EditBookPage({super.key, required this.book});
   final Map<String, dynamic> book;
   @override
   // ignore: library_private_types_in_public_api
@@ -18,13 +18,15 @@ class EditBookPage extends StatefulWidget {
 class _EditBookPageState extends State<EditBookPage> {
   late Map<String, dynamic> book;
 
-  setBookData() {
+  void setBookData() {
     textCodController = TextEditingController(text: book['isbn'] ?? '');
     textNomeController = TextEditingController(text: book['nome'] ?? '');
     textAutorController = TextEditingController(text: book['autor'] ?? '');
-    textPublisherController = TextEditingController(text: book['editora'] ?? '');
+    textPublisherController =
+        TextEditingController(text: book['editora'] ?? '');
     textAnoController = TextEditingController(text: book['ano'].toString());
-    textEditionController = TextEditingController(text: book['edicao'].toString());
+    textEditionController =
+        TextEditingController(text: book['edicao'].toString());
     textDateController = TextEditingController(text: book['dataCadastro']);
     textType = (_types.contains(book['tipo'])) ? book['tipo'] : null;
     textGenre = (_genres.contains(book['genero'])) ? book['genero'] : null;
@@ -39,7 +41,15 @@ class _EditBookPageState extends State<EditBookPage> {
   TextEditingController? textDateController;
   String? textType;
   String? textGenre;
-  final List<String> _types = ['Livro', 'Mangá/Gibi', 'DVD', 'Periódico(Artigo)', 'Revista', 'design', 'N.D.A'];
+  final List<String> _types = [
+    'Livro',
+    'Mangá/Gibi',
+    'DVD',
+    'Periódico(Artigo)',
+    'Revista',
+    'design',
+    'N.D.A'
+  ];
   late List<String> _genres;
   final _formKey = GlobalKey<FormState>();
 
@@ -75,7 +85,8 @@ class _EditBookPageState extends State<EditBookPage> {
           style: FlutterFlowTheme.of(context).displayLarge.override(
                 fontFamily: FlutterFlowTheme.of(context).displayLargeFamily,
                 color: FlutterFlowTheme.of(context).onBackground,
-                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).displayLargeFamily),
+                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                    FlutterFlowTheme.of(context).displayLargeFamily),
               ),
         ),
         actions: const [],
@@ -94,9 +105,11 @@ class _EditBookPageState extends State<EditBookPage> {
                 child: Text(
                   'Informações da Obra',
                   style: FlutterFlowTheme.of(context).displayLarge.override(
-                        fontFamily: FlutterFlowTheme.of(context).displayLargeFamily,
+                        fontFamily:
+                            FlutterFlowTheme.of(context).displayLargeFamily,
                         color: FlutterFlowTheme.of(context).alternate,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).displayLargeFamily),
+                        useGoogleFonts: GoogleFonts.asMap().containsKey(
+                            FlutterFlowTheme.of(context).displayLargeFamily),
                       ),
                 ),
               ),
@@ -109,7 +122,8 @@ class _EditBookPageState extends State<EditBookPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -120,9 +134,11 @@ class _EditBookPageState extends State<EditBookPage> {
                               fillColor: FlutterFlowTheme.of(context).accent4,
                               isDense: true,
                               labelText: 'Cód.',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Cód.',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -158,7 +174,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -168,9 +185,11 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Nome',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Nome',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -200,7 +219,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               suffixIcon: Icon(
                                 Icons.edit_outlined,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -218,7 +238,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -228,9 +249,11 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Autor',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Autor',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -260,7 +283,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               suffixIcon: Icon(
                                 Icons.edit_outlined,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -278,7 +302,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -288,9 +313,11 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Editora',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Editora',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -320,7 +347,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               suffixIcon: Icon(
                                 Icons.edit_outlined,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -338,7 +366,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -348,9 +377,11 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Edição',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Edição',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -380,7 +411,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               suffixIcon: Icon(
                                 Icons.edit_outlined,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -403,7 +435,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.91,
                           child: TextFormField(
@@ -413,9 +446,11 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Ano',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               hintText: 'Ano',
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -445,7 +480,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               suffixIcon: Icon(
                                 Icons.edit_outlined,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -473,10 +509,12 @@ class _EditBookPageState extends State<EditBookPage> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16, 8, 0, 8),
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.40,
-                              height: MediaQuery.of(context).size.height * 0.069,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.069,
                               child: DropdownButtonFormField(
                                 items: _types.map((String category) {
                                   return DropdownMenuItem(
@@ -485,7 +523,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                       children: <Widget>[
                                         Text(
                                           category,
-                                          style: FlutterFlowTheme.of(context).bodyMedium,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
                                         ),
                                       ],
                                     ),
@@ -495,16 +534,19 @@ class _EditBookPageState extends State<EditBookPage> {
                                   // do other stuff with _category
                                   setState(() => textType = newValue);
                                 },
-                                value: textType,
+                                initialValue: textType,
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   size: 24,
                                 ),
                                 decoration: InputDecoration(
-                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
                                   label: const Text('Tipo'),
-                                  labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                                  labelStyle:
+                                      FlutterFlowTheme.of(context).labelMedium,
                                   isDense: true,
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: const BorderSide(),
@@ -534,10 +576,12 @@ class _EditBookPageState extends State<EditBookPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16, 8, 0, 8),
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.50,
-                              height: MediaQuery.of(context).size.height * 0.069,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.069,
                               child: DropdownButtonFormField(
                                 items: _genres.map((String category) {
                                   return DropdownMenuItem(
@@ -546,7 +590,8 @@ class _EditBookPageState extends State<EditBookPage> {
                                       children: <Widget>[
                                         Text(
                                           category,
-                                          style: FlutterFlowTheme.of(context).bodyMedium,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
                                         ),
                                       ],
                                     ),
@@ -556,16 +601,19 @@ class _EditBookPageState extends State<EditBookPage> {
                                   // do other stuff with _category
                                   setState(() => textGenre = newValue);
                                 },
-                                value: textGenre,
+                                initialValue: textGenre,
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   size: 24,
                                 ),
                                 decoration: InputDecoration(
-                                  labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                                  labelStyle:
+                                      FlutterFlowTheme.of(context).labelMedium,
                                   label: const Text('Gênero'),
-                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
                                   isDense: true,
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: const BorderSide(),
@@ -597,7 +645,8 @@ class _EditBookPageState extends State<EditBookPage> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: TextFormField(
@@ -608,8 +657,10 @@ class _EditBookPageState extends State<EditBookPage> {
                             decoration: InputDecoration(
                               isDense: true,
                               labelText: 'Data de Cadastro',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
+                              hintStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color(0x00000000),
@@ -639,7 +690,9 @@ class _EditBookPageState extends State<EditBookPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context).secondaryBackground.withOpacity(0.2),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground
+                                  .withOpacity(0.2),
                             ),
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             keyboardType: TextInputType.number,
@@ -656,28 +709,41 @@ class _EditBookPageState extends State<EditBookPage> {
                               child: TextButton(
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    var confirmDialogResponse = await showDialog<bool>(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: const Text('Confirmar edição'),
-                                              content: const Text('Deseja alterar os dados dessa obra ?'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                  child: const Text('Cancelar'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                  child: const Text('Confirmar'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        ) ??
-                                        false;
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Confirmar edição'),
+                                                  content: const Text(
+                                                      'Deseja alterar os dados dessa obra ?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              false),
+                                                      child: const Text(
+                                                          'Cancelar'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              true),
+                                                      child: const Text(
+                                                          'Confirmar'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ) ??
+                                            false;
                                     if (confirmDialogResponse) {
-                                      context.read<AuthService>().postBookDetailsToFirestore(
+                                      context
+                                          .read<AuthService>()
+                                          .postBookDetailsToFirestore(
                                             textCodController,
                                             textNomeController,
                                             textAutorController,
@@ -696,9 +762,11 @@ class _EditBookPageState extends State<EditBookPage> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   fixedSize: const Size(double.infinity, 60),
-                                  backgroundColor: FlutterFlowTheme.of(context).secondaryContainer,
+                                  backgroundColor: FlutterFlowTheme.of(context)
+                                      .secondaryContainer,
                                   elevation: 3,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
                                   textStyle: const TextStyle(
                                     fontFamily: 'Jost',
                                     fontSize: 16,
@@ -711,18 +779,29 @@ class _EditBookPageState extends State<EditBookPage> {
                                   children: [
                                     Icon(
                                       Icons.edit_outlined,
-                                      color: FlutterFlowTheme.of(context).onSecondaryContainer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onSecondaryContainer,
                                       size: 24,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         'Salvar alterações',
-                                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                                            fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                            color: FlutterFlowTheme.of(context).onSecondaryContainer,
-                                            useGoogleFonts:
-                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily)),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleLargeFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .onSecondaryContainer,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleLargeFamily)),
                                       ),
                                     ),
                                   ],
@@ -736,19 +815,24 @@ class _EditBookPageState extends State<EditBookPage> {
                               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                               child: TextButton(
                                 onPressed: () async {
-                                  var confirmDialogResponse = await showDialog<bool>(
+                                  var confirmDialogResponse = await showDialog<
+                                          bool>(
                                         context: context,
                                         builder: (alertDialogContext) {
                                           return AlertDialog(
-                                            title: const Text('Confirmar exclusão'),
-                                            content: const Text('Deseja apagar os dados dessa obra ?'),
+                                            title: const Text(
+                                                'Confirmar exclusão'),
+                                            content: const Text(
+                                                'Deseja apagar os dados dessa obra ?'),
                                             actions: [
                                               TextButton(
-                                                onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
                                                 child: const Text('Cancelar'),
                                               ),
                                               TextButton(
-                                                onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
                                                 child: const Text('Confirmar'),
                                               ),
                                             ],
@@ -757,7 +841,9 @@ class _EditBookPageState extends State<EditBookPage> {
                                       ) ??
                                       false;
                                   if (confirmDialogResponse) {
-                                    await context.read<AuthService>().deleteBook(book);
+                                    await context
+                                        .read<AuthService>()
+                                        .deleteBook(book);
                                   }
                                   Navigator.pop(context);
                                   Navigator.pop(context);
@@ -767,9 +853,11 @@ class _EditBookPageState extends State<EditBookPage> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   fixedSize: const Size(double.infinity, 60),
-                                  backgroundColor: FlutterFlowTheme.of(context).errorContainer,
+                                  backgroundColor: FlutterFlowTheme.of(context)
+                                      .errorContainer,
                                   elevation: 3,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
                                   textStyle: const TextStyle(
                                     fontFamily: 'Jost',
                                     fontSize: 16,
@@ -782,18 +870,29 @@ class _EditBookPageState extends State<EditBookPage> {
                                   children: [
                                     Icon(
                                       Icons.delete_forever_rounded,
-                                      color: FlutterFlowTheme.of(context).onErrorContainer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .onErrorContainer,
                                       size: 24,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         'Excluir obra',
-                                        style: FlutterFlowTheme.of(context).titleLarge.override(
-                                            fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                            color: FlutterFlowTheme.of(context).onErrorContainer,
-                                            useGoogleFonts:
-                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).titleLargeFamily)),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleLargeFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .onErrorContainer,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleLargeFamily)),
                                       ),
                                     ),
                                   ],
