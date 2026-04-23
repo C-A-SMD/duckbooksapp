@@ -52,6 +52,9 @@ dependencies:
   shared_preferences: ^2.1.2
   data_table_2: ^2.5.3
   http: ^1.1.0
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+  connectivity_plus: ^6.0.5
 
 dev_dependencies:
   flutter_test:

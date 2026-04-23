@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import '../configs/app_settings.dart';
+import 'offline_sync_service.dart';
 import 'firestore_date_utils.dart';
 import 'repositories/loan_repository.dart';
 import 'repositories/reservation_repository.dart';
@@ -29,16 +30,24 @@ class AuthException implements Exception {
 }
 
 class AuthService extends ChangeNotifier {
+  static const String _actionSendBorrowRequest = 'sendBorrowRequest';
+  static const String _actionDoReservation = 'doReservation';
+  static const String _actionCancelReservation = 'cancelReservation';
+  static const String _actionFinishReservation = 'finishReservation';
+  static const String _actionSendValidationRequest = 'sendValidationRequest';
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final Map<String, String> _bookIdByCodeCache = {};
   final Map<String, String> _registrationByUserIdCache = {};
   final ReservationRepository _reservationRepository = ReservationRepository();
   final LoanRepository _loanRepository = LoanRepository();
+  late final OfflineSyncService _offlineSyncService;
   User? usuario;
   // String? nickname;
   late bool isAdm;
   bool isLoading = true;
+  bool _isReplayingPendingAction = false;
 
   List<String> genreList = [
     "Empreendedorismo",
@@ -77,7 +86,137 @@ class AuthService extends ChangeNotifier {
   ];
 
   AuthService() {
+    _offlineSyncService = OfflineSyncService(handlers: {
+      _actionSendBorrowRequest: _handleSendBorrowRequest,
+      _actionDoReservation: _handleDoReservation,
+      _actionCancelReservation: _handleCancelReservation,
+      _actionFinishReservation: _handleFinishReservation,
+      _actionSendValidationRequest: _handleSendValidationRequest,
+    });
     _authCheck();
+    _initializeOfflineSync();
+  }
+
+  Future<void> _initializeOfflineSync() async {
+    await _offlineSyncService.initialize();
+  }
+
+  @override
+  void dispose() {
+    _offlineSyncService.dispose();
+    super.dispose();
+  }
+
+  Future<bool> _isOffline() async {
+    return !(await _offlineSyncService.isOnline());
+  }
+
+  bool _isConnectionError(Object error) {
+    if (error is FirebaseException) {
+      return error.code == 'unavailable' ||
+          error.code == 'network-request-failed' ||
+          error.code == 'deadline-exceeded';
+    }
+    return false;
+  }
+
+  Future<void> _runOrQueueAction({
+    required String action,
+    required Map<String, dynamic> payload,
+    required Future<void> Function() onlineAction,
+    String queuedMessage =
+        'Sem internet. Ação salva e será sincronizada automaticamente.',
+  }) async {
+    if (!_isReplayingPendingAction && await _isOffline()) {
+      await _offlineSyncService.enqueueAction(action: action, payload: payload);
+      Fluttertoast.showToast(msg: queuedMessage);
+      return;
+    }
+
+    try {
+      await onlineAction();
+    } catch (error) {
+      if (_isReplayingPendingAction) {
+        rethrow;
+      }
+
+      if (_isConnectionError(error)) {
+        await _offlineSyncService.enqueueAction(
+            action: action, payload: payload);
+        Fluttertoast.showToast(msg: queuedMessage);
+        return;
+      }
+
+      rethrow;
+    }
+  }
+
+  Future<void> syncPendingData() async {
+    await _offlineSyncService.syncPending();
+  }
+
+  Future<int> pendingSyncCount() async {
+    return _offlineSyncService.pendingCount();
+  }
+
+  Future<void> _handleSendBorrowRequest(Map<String, dynamic> payload) async {
+    _isReplayingPendingAction = true;
+    try {
+      await _sendBorrowRequestOnline(
+        bookCod: payload['bookCod'] as String,
+        userId: payload['userId'] as String,
+      );
+    } finally {
+      _isReplayingPendingAction = false;
+    }
+  }
+
+  Future<void> _handleDoReservation(Map<String, dynamic> payload) async {
+    _isReplayingPendingAction = true;
+    try {
+      await _doReservationOnline(
+        bookCod: payload['bookCod'] as String,
+        userId: payload['userId'] as String,
+      );
+    } finally {
+      _isReplayingPendingAction = false;
+    }
+  }
+
+  Future<void> _handleCancelReservation(Map<String, dynamic> payload) async {
+    _isReplayingPendingAction = true;
+    try {
+      await _cancelReservationOnline(
+        bookCod: payload['bookCod'] as String,
+        userId: payload['userId'] as String,
+      );
+    } finally {
+      _isReplayingPendingAction = false;
+    }
+  }
+
+  Future<void> _handleFinishReservation(Map<String, dynamic> payload) async {
+    _isReplayingPendingAction = true;
+    try {
+      await _finishReservationOnline(
+        bookCod: payload['bookCod'] as String,
+        userId: payload['userId'] as String,
+      );
+    } finally {
+      _isReplayingPendingAction = false;
+    }
+  }
+
+  Future<void> _handleSendValidationRequest(
+      Map<String, dynamic> payload) async {
+    _isReplayingPendingAction = true;
+    try {
+      await _sendValidationRequestOnline(
+        registration: payload['registration'] as String,
+      );
+    } finally {
+      _isReplayingPendingAction = false;
+    }
   }
 
   Future<QueryDocumentSnapshot<Map<String, dynamic>>?> _firstOrNull(
@@ -291,11 +430,28 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> finishReservation(String bookCod) async {
+    final currentUserId = usuario?.uid;
+    if (currentUserId == null) {
+      throw AuthException('Usuário não autenticado');
+    }
+
+    await _runOrQueueAction(
+      action: _actionFinishReservation,
+      payload: {'bookCod': bookCod, 'userId': currentUserId},
+      onlineAction: () =>
+          _finishReservationOnline(bookCod: bookCod, userId: currentUserId),
+    );
+  }
+
+  Future<void> _finishReservationOnline({
+    required String bookCod,
+    required String userId,
+  }) async {
     final reservationDoc = await _firstOrNull(firebaseFirestore
         .collection('reservation')
         .where('bookReservedId', isEqualTo: bookCod)
         .where('statusBook', isEqualTo: 'Solicitado')
-        .where('reservationList', arrayContains: usuario!.uid));
+        .where('reservationList', arrayContains: userId));
 
     if (reservationDoc == null) {
       return;
@@ -308,11 +464,28 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> cancelReservation(String bookCod) async {
+    final currentUserId = usuario?.uid;
+    if (currentUserId == null) {
+      throw AuthException('Usuário não autenticado');
+    }
+
+    await _runOrQueueAction(
+      action: _actionCancelReservation,
+      payload: {'bookCod': bookCod, 'userId': currentUserId},
+      onlineAction: () =>
+          _cancelReservationOnline(bookCod: bookCod, userId: currentUserId),
+    );
+  }
+
+  Future<void> _cancelReservationOnline({
+    required String bookCod,
+    required String userId,
+  }) async {
     final reservationDoc = await _firstOrNull(firebaseFirestore
         .collection('reservation')
         .where('bookReservedId', isEqualTo: bookCod)
         .where('statusBook', isEqualTo: 'Solicitado')
-        .where('reservationList', arrayContains: usuario!.uid));
+        .where('reservationList', arrayContains: userId));
 
     if (reservationDoc == null) {
       return;
@@ -324,28 +497,44 @@ class AuthService extends ChangeNotifier {
         .update({"statusBook": "Cancelada"});
     await createLog(
       time: DateTime.now().millisecondsSinceEpoch.toString(),
-      action: "Cancelamento", // de reserva
-      userId: await getRegistrationById(usuario!.uid),
+      action: "Cancelamento",
+      userId: await getRegistrationById(userId),
       codBook: bookCod,
     );
   }
 
   Future<void> doReservation(dynamic book) async {
-    // Por enquanto não deixar um tempo limite para pegar depois de reservar
+    final currentUserId = usuario?.uid;
+    if (currentUserId == null) {
+      throw AuthException('Usuário não autenticado');
+    }
+
+    final bookCod = book['codigo'] as String;
+    await _runOrQueueAction(
+      action: _actionDoReservation,
+      payload: {'bookCod': bookCod, 'userId': currentUserId},
+      onlineAction: () =>
+          _doReservationOnline(bookCod: bookCod, userId: currentUserId),
+    );
+  }
+
+  Future<void> _doReservationOnline({
+    required String bookCod,
+    required String userId,
+  }) async {
     final now = DateTime.now();
     await firebaseFirestore.collection("reservation").add(ReservationModel(
-            bookReservedId: book['codigo'],
+            bookReservedId: bookCod,
             reservationDate: FirestoreDateUtils.toLegacyString(now),
-            reservationList: [usuario!.uid],
-            statusBook: 'Solicitado' // bookBorrowed: await getIdByCod(bookCod),
-            )
+            reservationList: [userId],
+            statusBook: 'Solicitado')
         .toMap()
       ..addAll({'reservationDateTs': Timestamp.fromDate(now)}));
     await createLog(
       time: DateTime.now().millisecondsSinceEpoch.toString(),
-      action: "Reserva", // de reserva
-      userId: await getRegistrationById(usuario!.uid),
-      codBook: book['codigo'],
+      action: "Reserva",
+      userId: await getRegistrationById(userId),
+      codBook: bookCod,
     );
   }
 
@@ -372,6 +561,23 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> sendBorrowRequest(String bookCod) async {
+    final currentUserId = usuario?.uid;
+    if (currentUserId == null) {
+      throw AuthException('Usuário não autenticado');
+    }
+
+    await _runOrQueueAction(
+      action: _actionSendBorrowRequest,
+      payload: {'bookCod': bookCod, 'userId': currentUserId},
+      onlineAction: () =>
+          _sendBorrowRequestOnline(bookCod: bookCod, userId: currentUserId),
+    );
+  }
+
+  Future<void> _sendBorrowRequestOnline({
+    required String bookCod,
+    required String userId,
+  }) async {
     final now = DateTime.now();
     await firebaseFirestore.collection("loan").add(LoanModel(
           bookBorrowed: await getIdByCod(bookCod),
@@ -380,7 +586,7 @@ class AuthService extends ChangeNotifier {
           returnDate: null,
           status: "Solicitado",
           userAllowing: null,
-          userLoan: usuario!.uid,
+          userLoan: userId,
         ).toMap()
           ..addAll(
               {'loanDateTs': Timestamp.fromDate(now), 'returnDateTs': null}));
@@ -712,6 +918,17 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> sendValidationRequest(String registration) async {
+    await _runOrQueueAction(
+      action: _actionSendValidationRequest,
+      payload: {'registration': registration},
+      onlineAction: () =>
+          _sendValidationRequestOnline(registration: registration),
+    );
+  }
+
+  Future<void> _sendValidationRequestOnline({
+    required String registration,
+  }) async {
     final now = DateTime.now();
     ValidationModel validationRequest = ValidationModel(
         dateRequest: FirestoreDateUtils.toLegacyString(now),
