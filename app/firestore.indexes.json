@@ -1,0 +1,55 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "book",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "nome", "order": "ASCENDING" },
+        { "fieldPath": "genero", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "emprestimo",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "bookBorrowed", "order": "ASCENDING" },
+        { "fieldPath": "userLoan", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "emprestimo",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "bookBorrowed", "order": "ASCENDING" },
+        { "fieldPath": "returnDate", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "reservations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "bookReservedId", "order": "ASCENDING" },
+        { "fieldPath": "statusBook", "order": "ASCENDING" },
+        { "fieldPath": "reservationList", "arrayConfig": "CONTAINS" }
+      ]
+    },
+    {
+      "collectionGroup": "validation",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "dateRequestTs", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "timeTs", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

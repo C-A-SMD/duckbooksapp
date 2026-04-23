@@ -1,6 +1,6 @@
 class ReservationModel {
   dynamic bookReservedId;
-  List reservationList; // Vai ter o id das pesoas que pedirem reservas
+  List reservationList; // Vai ter o id das pessoas que pedirem reservas
   String statusBook;
   dynamic reservationDate;
 

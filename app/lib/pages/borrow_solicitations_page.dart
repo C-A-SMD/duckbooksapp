@@ -1,4 +1,5 @@
 import 'package:app/pages/register_loan_page.dart';
+import 'package:app/services/firestore_date_utils.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -30,7 +31,7 @@ class _BorrowSolicitationsPageState extends State<BorrowSolicitationsPage> {
     });
 
     await firebaseFirestore
-        .collection('emprestimo')
+        .collection('loan')
         .where('status', isEqualTo: 'Solicitado')
         .get()
         .then(
@@ -226,7 +227,10 @@ class _BorrowSolicitationsPageState extends State<BorrowSolicitationsPage> {
                                       DataCell(SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          borrowQuests[index]['loanDate'],
+                                          FirestoreDateUtils.displayDate(
+                                            borrowQuests[index]['loanDateTs'] ??
+                                                borrowQuests[index]['loanDate'],
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       )),

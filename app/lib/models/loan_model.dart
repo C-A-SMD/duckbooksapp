@@ -51,13 +51,15 @@ class LoanModel {
 
   factory LoanModel.fromMap(Map<String, dynamic> map) {
     return LoanModel(
-      bookBorrowed: map['bookBorrowed'] as String,
-      loanDate: map['loanDate'] as String,
-      renovations: map['renovations'] as int,
-      returnDate: map['returnDate'] as String,
-      status: map['status'] as String,
-      userAllowing: map['userAllowing'] as String,
-      userLoan: map['userLoan'] as String,
+      bookBorrowed: map['bookBorrowed']?.toString() ?? '',
+      loanDate: map['loanDate']?.toString() ?? '',
+      renovations: map['renovations'] is int
+          ? map['renovations'] as int
+          : int.tryParse(map['renovations']?.toString() ?? '') ?? 0,
+      returnDate: map['returnDate']?.toString(),
+      status: map['status']?.toString() ?? '',
+      userAllowing: map['userAllowing']?.toString(),
+      userLoan: map['userLoan']?.toString() ?? '',
     );
   }
 

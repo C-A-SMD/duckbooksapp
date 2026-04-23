@@ -31,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
     Map<String, String> datalogin =
         Provider.of<AppSettings>(context, listen: false).logindata;
     texMatriculaController!.text = datalogin['registration'] ?? '';
-    texSenhaController!.text =
-        (datalogin['password']!.length > 3) ? datalogin['password'] ?? '' : '';
+    final savedPassword = datalogin['password'] ?? '';
+    texSenhaController!.text = (savedPassword.length > 3) ? savedPassword : '';
     checkboxValue = (datalogin['registration'] == '') ? false : true;
   }
 
@@ -44,16 +44,17 @@ class _LoginPageState extends State<LoginPage> {
       setLoginData();
     });
 
-    FirebaseFirestore.instance
-        // ! Relativo a coleção do Firebase
-        .collection("usuario")
-        // ! Relativo a instância da classe User, declarada acima na linha 20
-        .doc(user?.uid)
-        .get()
-        .then((value) {
-      // final loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
+    if (user != null) {
+      FirebaseFirestore.instance
+          .collection("user")
+          .doc(user!.uid)
+          .get()
+          .then((value) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
     passwordVisibility = false;
   }
 

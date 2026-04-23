@@ -40,11 +40,11 @@ class ValidationModel {
 
   factory ValidationModel.fromMap(Map<String, dynamic> map) {
     return ValidationModel(
-      dateRequest: map['dateRequest'] as dynamic,
-      dateValidation: map['dateValidation'] as dynamic,
-      status: map['status'] as bool,
-      userAllowingId: map['userAllowingId'] != null ? map['userAllowingId'] as String : null,
-      userReaderId: map['userReaderId'] != null ? map['userReaderId'] as String : null,
+      dateRequest: map['dateRequest'],
+      dateValidation: map['dateValidation'],
+      status: map['status'] is bool ? map['status'] as bool : false,
+      userAllowingId: map['userAllowingId']?.toString(),
+      userReaderId: map['userReaderId']?.toString(),
     );
   }
 
@@ -52,5 +52,4 @@ class ValidationModel {
   String toString() {
     return 'ValidationModel(dateRequest: $dateRequest, dateValidation: $dateValidation, status: $status, userAllowingId: $userAllowingId, userReaderId: $userReaderId)';
   }
-
 }

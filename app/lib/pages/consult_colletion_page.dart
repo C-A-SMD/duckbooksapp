@@ -1,5 +1,6 @@
 import 'package:app/pages/collection_details_page.dart';
 import 'package:app/pages/consultion_genre_page.dart';
+import 'package:app/services/repositories/book_repository.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,14 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 List livros = [];
 
 bool isLoading = false;
+bool isLoadingMore = false;
+bool hasMoreBooks = true;
+DocumentSnapshot<Map<String, dynamic>>? lastBookDocument;
 
 class _ConsultPageState extends State<ConsultPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final BookRepository _bookRepository = BookRepository();
+  static const int _pageSize = 20;
 
   String truncateWithEllipsis(int cutoff, String myString) {
     return (myString.length <= cutoff)
@@ -67,19 +73,34 @@ class _ConsultPageState extends State<ConsultPage> {
   }
 
   Future<void> atualizarLista() async {
-    livros = await firebaseFirestore
-        .collection('book')
-        .where('nome', isNull: false)
-        .orderBy('nome', descending: false)
-        .get()
-        .then((value) {
-      List lista = [];
-      for (var docSnapshot in value.docs) {
-        if (!(docSnapshot.data()['isDeleted'].toString() == 'true')) {
-          lista.add(docSnapshot.data());
-        }
-      }
-      return lista;
+    final firstPage = await _bookRepository.fetchBooksPage(
+      pageSize: _pageSize,
+    );
+
+    livros = firstPage.items;
+    lastBookDocument = firstPage.lastDocument;
+    hasMoreBooks = firstPage.hasMore;
+  }
+
+  Future<void> carregarMais() async {
+    if (!hasMoreBooks || isLoadingMore) {
+      return;
+    }
+
+    setState(() {
+      isLoadingMore = true;
+    });
+
+    final nextPage = await _bookRepository.fetchBooksPage(
+      pageSize: _pageSize,
+      startAfter: lastBookDocument,
+    );
+
+    setState(() {
+      livros.addAll(nextPage.items);
+      lastBookDocument = nextPage.lastDocument;
+      hasMoreBooks = nextPage.hasMore;
+      isLoadingMore = false;
     });
   }
 
@@ -246,8 +267,30 @@ class _ConsultPageState extends State<ConsultPage> {
                         onRefresh: () =>
                             searchByName(searchController?.text ?? ''),
                         child: ListView.builder(
-                          itemCount: livros.length,
+                          itemCount: livros.length +
+                              ((hasMoreBooks &&
+                                      (searchController?.text ?? '').isEmpty)
+                                  ? 1
+                                  : 0),
                           itemBuilder: (context, index) {
+                            if (index == livros.length) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                child: Center(
+                                  child: ElevatedButton(
+                                    onPressed:
+                                        isLoadingMore ? null : carregarMais,
+                                    child: Text(
+                                      isLoadingMore
+                                          ? 'Carregando...'
+                                          : 'Carregar mais',
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
                             return Column(children: [
                               (index == 0)
                                   ? Column(

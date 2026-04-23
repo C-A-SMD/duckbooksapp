@@ -1,5 +1,6 @@
 import 'package:app/pages/edit_book_page.dart';
 import 'package:app/services/auth_service.dart';
+import 'package:app/services/firestore_date_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -287,9 +288,12 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                             const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                         child: Text(
                           // TODO Fazer lógica para dizer disponibilidade
-                          (book['dataDisponibilidade'].toString() == 'null')
+                          (FirestoreDateUtils.parse(
+                                      book['dataDisponibilidadeTs'] ??
+                                          book['dataDisponibilidade']) ==
+                                  null)
                               ? 'Disponível'
-                              : 'Previsão de Disponibilidade:\n${book['dataDisponibilidade'].toString().substring(0, 10)}',
+                              : 'Previsão de Disponibilidade:\n${FirestoreDateUtils.displayDate(book['dataDisponibilidadeTs'] ?? book['dataDisponibilidade'], pattern: 'dd/MM/yyyy')}',
                           textAlign: TextAlign.center,
                           style: FlutterFlowTheme.of(context)
                               .titleLarge

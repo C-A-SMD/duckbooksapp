@@ -4,8 +4,10 @@ class UserModel {
   String? email;
   String? pass;
   String? nickname;
-  bool? typeAdmin = true; // Após finalizar a validação de usuários colocar pra false
-  bool? validated = false; // Após finalizar a validação de usuários colocar pra false
+  bool? typeAdmin =
+      true; //TODO Após finalizar a validação de usuários colocar pra false
+  bool? validated =
+      false; // Após finalizar a validação de usuários colocar pra false
   List<Map>? userLoans = [];
   List<Map>? userReservations = [];
 
@@ -64,8 +66,6 @@ class UserModel {
     return 'UserModel(uId: $uId, matriculaSIAPE: $matriculaSIAPE, email: $email, pass: $pass, nickname: $nickname, typeAdmin: $typeAdmin, validated: $validated, userLoans: $userLoans, userReservations: $userReservations)';
   }
 }
-
-
 
 // class UserModel {
 //   late String? uId;

@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "duckbooksapp"
+  },
+  "targets": {
+    "duckbooksapp": {
+      "hosting": {
+        "main": [
+          "duckbooksapp"
+        ],
+        "casmd": [
+          "duckbooksapp-casmd"
+        ]
+      }
+    }
+  }
+}

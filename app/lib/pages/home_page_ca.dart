@@ -1,6 +1,7 @@
 import 'package:app/pages/borrow_solicitations_page.dart';
 import 'package:app/pages/register_book.dart';
 import 'package:app/pages/register_loan_page.dart';
+import 'package:app/services/firestore_date_utils.dart';
 import 'package:app/pages/validation_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 import '/assets/theme/flutter_flow_theme.dart';
 import '../widgets/duck_app_bar.dart';
@@ -51,7 +51,7 @@ class _HomePageCaState extends State<HomePageCa> {
       isLoading = true;
     });
 
-    await firebaseFirestore.collection('logs').get().then(
+    await firebaseFirestore.collection('log').get().then(
       (value) async {
         for (var docSnapshot in value.docs) {
           var action = docSnapshot.data();
@@ -70,7 +70,13 @@ class _HomePageCaState extends State<HomePageCa> {
       isLoading = false;
     });
 
-    actions.sort(((a, b) => b['time'].compareTo(a['time'])));
+    actions.sort((a, b) {
+      final dtA = FirestoreDateUtils.parse(a['timeTs'] ?? a['time']) ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      final dtB = FirestoreDateUtils.parse(b['timeTs'] ?? b['time']) ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      return dtB.compareTo(dtA);
+    });
     return actions;
   }
 
@@ -87,8 +93,8 @@ class _HomePageCaState extends State<HomePageCa> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: WillPopScope(
-        onWillPop: () async => false,
+      child: PopScope(
+        canPop: false,
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -408,7 +414,7 @@ class _HomePageCaState extends State<HomePageCa> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               FaIcon(
-                                                FontAwesomeIcons.usersCog,
+                                                FontAwesomeIcons.usersGear,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .onSecondaryContainer,
@@ -675,11 +681,7 @@ class _HomePageCaState extends State<HomePageCa> {
                                                                     .bodyLarge,
                                                               ),
                                                               Text(
-                                                                'Horário: ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.fromMillisecondsSinceEpoch(
-                                                                  int.parse(usersActions[
-                                                                          index]
-                                                                      ['time']),
-                                                                ))}',
+                                                                'Horário: ${FirestoreDateUtils.displayDate(usersActions[index]['timeTs'] ?? usersActions[index]['time'])}',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyLarge,
@@ -766,12 +768,14 @@ class _HomePageCaState extends State<HomePageCa> {
                                                         child: IconButton(
                                                           onPressed: () async {
                                                             Fluttertoast.showToast(
-                                                                msg: DateFormat(
-                                                                        'dd/MM/yyyy HH:mm')
-                                                                    .format(DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                                                        usersActions[index]
-                                                                            [
-                                                                            'time']))));
+                                                                msg: FirestoreDateUtils.displayDate(usersActions[
+                                                                            index]
+                                                                        [
+                                                                        'timeTs'] ??
+                                                                    usersActions[
+                                                                            index]
+                                                                        [
+                                                                        'time']));
                                                           },
                                                           icon: const Icon(
                                                             Icons.timer,

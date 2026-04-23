@@ -40,16 +40,16 @@ class LogModel {
 
   factory LogModel.fromMap(Map<String, dynamic> map) {
     return LogModel(
-      time: map['time'] as String,
-      userId: map['userId'] as String,
-      userAdmId: map['userAdmId'] != null ? map['userAdmId'] as String : null,
-      action: map['action'] as String,
-      codBook: map['codBook'] != null ? map['codBook'] as String : null,
+      time: map['time']?.toString() ?? '',
+      userId: map['userId']?.toString() ?? '',
+      userAdmId: map['userAdmId']?.toString(),
+      action: map['action']?.toString() ?? '',
+      codBook: map['codBook']?.toString(),
     );
   }
 
   @override
   String toString() {
     return 'LogModel(time: $time, userId: $userId, userAdmId: $userAdmId, action: $action, codBook: $codBook)';
-  } 
+  }
 }

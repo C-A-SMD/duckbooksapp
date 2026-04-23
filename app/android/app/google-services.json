@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "791612579586",
-    "project_id": "duckbooksapp-smd",
-    "storage_bucket": "duckbooksapp-smd.appspot.com"
+    "project_number": "44932513238",
+    "project_id": "duckbooksapp",
+    "storage_bucket": "duckbooksapp.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:791612579586:android:f0a279db3b991ac112ac1b",
+        "mobilesdk_app_id": "1:44932513238:android:f66fe0d77f298ffc6af877",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "br.casmd.duckbooks"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "791612579586-vpech72v9ps6pu8238gg2eq0gh8d635a.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1dmmFdUq90690YfPpXif9bKKGAYoDHHc"
+          "current_key": "AIzaSyBBunLFEnPOlPTK6KDetcE4_o7BsNvD6Yc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "791612579586-vpech72v9ps6pu8238gg2eq0gh8d635a.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

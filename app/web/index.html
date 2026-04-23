@@ -20,14 +20,15 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="app">
+  <meta name="apple-mobile-web-app-title" content="DuckBooks-Web">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>app</title>
+  <title>DuckBooks-Web</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -136,7 +137,48 @@
   
   
   <script>
-    window.addEventListener('load', function(ev) {
+    async function refreshCachesOnVersionChange() {
+      const versionKey = 'duckbooks-sw-version';
+      const currentVersion = String(serviceWorkerVersion || 'no-sw-version');
+      const previousVersion = localStorage.getItem(versionKey);
+      const hadController =
+          'serviceWorker' in navigator && !!navigator.serviceWorker.controller;
+
+      if (previousVersion === currentVersion) {
+        return false;
+      }
+
+      if (previousVersion === null && !hadController) {
+        localStorage.setItem(versionKey, currentVersion);
+        return false;
+      }
+
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.unregister()));
+        }
+        if ('caches' in window) {
+          const cacheKeys = await caches.keys();
+          await Promise.all(cacheKeys.map((key) => caches.delete(key)));
+        }
+      } finally {
+        localStorage.setItem(versionKey, currentVersion);
+      }
+
+      if (hadController) {
+        window.location.reload();
+        return true;
+      }
+      return false;
+    }
+
+    window.addEventListener('load', async function(ev) {
+      const didReload = await refreshCachesOnVersionChange();
+      if (didReload) {
+        return;
+      }
+
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
@@ -145,6 +187,7 @@
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
             appRunner.runApp();
+            removeSplashFromWeb();
           });
         }
       });

@@ -166,7 +166,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                 ],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Por favor, preencha!';
+                                    return null;
                                   }
                                   return null;
                                 },
@@ -258,7 +258,7 @@ class _RegisterBookState extends State<RegisterBook> {
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor, preencha!';
+                                return null;
                               }
                               return null;
                             },
@@ -317,7 +317,7 @@ class _RegisterBookState extends State<RegisterBook> {
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor, preencha!';
+                                return null;
                               }
                               return null;
                             },
@@ -376,7 +376,7 @@ class _RegisterBookState extends State<RegisterBook> {
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor, preencha!';
+                                return null;
                               }
                               return null;
                             },
@@ -440,7 +440,7 @@ class _RegisterBookState extends State<RegisterBook> {
                             ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor, preencha!';
+                                return null;
                               }
                               return null;
                             },
@@ -505,7 +505,7 @@ class _RegisterBookState extends State<RegisterBook> {
                             ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor, preencha!';
+                                return null;
                               } else if (value.length < 4) {
                                 return 'Ano inválido';
                               }
@@ -576,7 +576,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                 ),
                                 validator: (value) {
                                   if (value == null) {
-                                    return 'Selecione um Tipo!';
+                                    return null;
                                   }
                                   return null;
                                 },
@@ -643,7 +643,7 @@ class _RegisterBookState extends State<RegisterBook> {
                                 ),
                                 validator: (value) {
                                   if (value == null) {
-                                    return 'Selecione um Gênero!';
+                                    return null;
                                   }
                                   return null;
                                 },

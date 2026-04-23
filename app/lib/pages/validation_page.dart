@@ -1,4 +1,5 @@
 import 'package:app/services/auth_service.dart';
+import 'package:app/services/firestore_date_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -233,8 +234,12 @@ class _ValidationPageState extends State<ValidationPage> {
                                       DataCell(SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          validationQuests[index]
-                                              ['dateRequest'],
+                                          FirestoreDateUtils.displayDate(
+                                            validationQuests[index]
+                                                    ['dateRequestTs'] ??
+                                                validationQuests[index]
+                                                    ['dateRequest'],
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -346,10 +351,15 @@ class _ValidationPageState extends State<ValidationPage> {
                                                                     Alignment
                                                                         .center,
                                                                 child: Text(
-                                                                  validationQuests[
-                                                                          index]
-                                                                      [
-                                                                      'dateRequest'],
+                                                                  FirestoreDateUtils
+                                                                      .displayDate(
+                                                                    validationQuests[index]
+                                                                            [
+                                                                            'dateRequestTs'] ??
+                                                                        validationQuests[index]
+                                                                            [
+                                                                            'dateRequest'],
+                                                                  ),
                                                                   style: const TextStyle(
                                                                       fontSize:
                                                                           24),

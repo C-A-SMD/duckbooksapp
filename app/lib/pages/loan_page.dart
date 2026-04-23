@@ -1,4 +1,5 @@
 import 'package:app/services/auth_service.dart';
+import 'package:app/services/firestore_date_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -79,7 +80,7 @@ class _LoanPageState extends State<LoanPage> {
           livro.addAll(
             {
               'renovacoes': await firebaseFirestore
-                  .collection('emprestimo')
+                  .collection('loan')
                   .where('bookBorrowed', isEqualTo: bookId)
                   .where('returnDate', isEqualTo: livro['dataDisponibilidade'])
                   .where('status', isEqualTo: 'Em dia')
@@ -299,20 +300,14 @@ class _LoanPageState extends State<LoanPage> {
                                                                   .start,
                                                           children: [
                                                             // livros[index]['dataDisponibilidade']
-                                                            (!DateTime.now().isAfter(DateTime.parse(livros[
-                                                                            index]
-                                                                        [
-                                                                        'dataDisponibilidade']
-                                                                    .toString()
-                                                                    .substring(
-                                                                        0,
-                                                                        10)
-                                                                    .replaceAll(
-                                                                        '/',
-                                                                        '-')
-                                                                    .split('-')
-                                                                    .reversed
-                                                                    .join())))
+                                                            (!DateTime.now().isAfter(
+                                                                    FirestoreDateUtils
+                                                                            .parse(
+                                                                          livros[index]['dataDisponibilidadeTs'] ??
+                                                                              livros[index]['dataDisponibilidade'],
+                                                                        ) ??
+                                                                        DateTime
+                                                                            .now()))
                                                                 ? Row(
                                                                     mainAxisSize:
                                                                         MainAxisSize

@@ -25,14 +25,17 @@ class _CadastroPageState extends State<CadastroPage> {
   @override
   void initState() {
     super.initState();
-    FirebaseFirestore.instance
-        .collection("usuario")
-        .doc(user?.uid)
-        .get()
-        .then((value) {
-      // final loggedInUser = UserModel.fromMap(value.data()); // Entendi, é para entrada automárica
-      setState(() {});
-    });
+    if (user != null) {
+      FirebaseFirestore.instance
+          .collection("user")
+          .doc(user!.uid)
+          .get()
+          .then((value) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
     passwordVisibility1 = false;
     passwordVisibility2 = false;
   }
