@@ -65,6 +65,12 @@ class _LoanPageState extends State<LoanPage> {
   }
 
   Future<void> atualizarLista() async {
+    final currentUserId = context.read<AuthService>().currentUserId;
+    if (currentUserId == null) {
+      livros = [];
+      return;
+    }
+
     livros = await firebaseFirestore
         .collection('book')
         .where('nome', isNull: false)
@@ -76,7 +82,7 @@ class _LoanPageState extends State<LoanPage> {
         Map<String, dynamic> livro = docSnapshot.data();
         String bookId = docSnapshot.id;
         if (!(livro['isDeleted'].toString() == 'true') &&
-            livro['userloan'] == context.read<AuthService>().usuario!.uid) {
+            livro['userloan'] == currentUserId) {
           livro.addAll(
             {
               'renovacoes': await firebaseFirestore
@@ -121,7 +127,7 @@ class _LoanPageState extends State<LoanPage> {
             onPressed: () {
               setState(
                 () {
-                  scaffoldKey.currentState!.openDrawer();
+                  scaffoldKey.currentState?.openDrawer();
                 },
               );
             },

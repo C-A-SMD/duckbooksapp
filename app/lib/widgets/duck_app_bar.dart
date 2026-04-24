@@ -30,8 +30,10 @@ class DuckAppBar extends StatelessWidget {
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     child: IconButton(
                       onPressed: () {
-                        if (scaffoldKey!.currentState!.isDrawerOpen ||
-                            scaffoldKey!.currentState!.isEndDrawerOpen) {
+                        final scaffoldState = scaffoldKey?.currentState;
+                        if (scaffoldState != null &&
+                            (scaffoldState.isDrawerOpen ||
+                                scaffoldState.isEndDrawerOpen)) {
                           Navigator.pop(context);
                         }
                       },

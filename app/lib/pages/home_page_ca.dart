@@ -108,7 +108,7 @@ class _HomePageCaState extends State<HomePageCa> {
               onPressed: () {
                 setState(
                   () {
-                    scaffoldKey.currentState!.openDrawer();
+                    scaffoldKey.currentState?.openDrawer();
                   },
                 );
               },
@@ -512,12 +512,12 @@ class _HomePageCaState extends State<HomePageCa> {
                                         ),
                                         child: DataTable2(
                                           columnSpacing: 10,
-                                          horizontalMargin: 22,
-                                          minWidth: 100,
+                                          horizontalMargin: 12,
+                                          minWidth: 320,
                                           columns: [
                                             DataColumn2(
+                                              size: ColumnSize.S,
                                               label: SizedBox(
-                                                width: 101.5,
                                                 child: Text(
                                                   'Ação',
                                                   style: FlutterFlowTheme.of(
@@ -541,12 +541,10 @@ class _HomePageCaState extends State<HomePageCa> {
                                                   textAlign: TextAlign.start,
                                                 ),
                                               ),
-                                              fixedWidth: 101.5,
                                             ),
                                             DataColumn2(
-                                              // size: ColumnSize.values.first,
+                                              size: ColumnSize.S,
                                               label: SizedBox(
-                                                width: 120,
                                                 child: Text(
                                                   'Matrícula',
                                                   style: FlutterFlowTheme.of(
@@ -570,12 +568,10 @@ class _HomePageCaState extends State<HomePageCa> {
                                                   textAlign: TextAlign.start,
                                                 ),
                                               ),
-                                              fixedWidth: 95,
                                             ),
                                             DataColumn2(
-                                              // size: ColumnSize.values.first,
+                                              size: ColumnSize.M,
                                               label: SizedBox(
-                                                width: 120,
                                                 child: Text(
                                                   'Detalhes',
                                                   style: FlutterFlowTheme.of(
@@ -599,7 +595,6 @@ class _HomePageCaState extends State<HomePageCa> {
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
-                                              fixedWidth: 120,
                                             ),
                                           ],
                                           rows: List<DataRow>.generate(

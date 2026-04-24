@@ -49,6 +49,8 @@ class AuthService extends ChangeNotifier {
   bool isLoading = true;
   bool _isReplayingPendingAction = false;
 
+  String? get currentUserId => usuario?.uid;
+
   List<String> genreList = [
     "Empreendedorismo",
     "Arte e educação",
@@ -98,7 +100,11 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> _initializeOfflineSync() async {
-    await _offlineSyncService.initialize();
+    try {
+      await _offlineSyncService.initialize();
+    } catch (_) {
+      // Nao interrompe autenticacao/UI se SQLite ou conectividade falhar.
+    }
   }
 
   @override
@@ -108,7 +114,11 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<bool> _isOffline() async {
-    return !(await _offlineSyncService.isOnline());
+    try {
+      return !(await _offlineSyncService.isOnline());
+    } catch (_) {
+      return true;
+    }
   }
 
   bool _isConnectionError(Object error) {
@@ -283,7 +293,10 @@ class AuthService extends ChangeNotifier {
               ),
             })
         .catchError((error) {
-      Fluttertoast.showToast(msg: error!.message);
+      final message = error is FirebaseAuthException
+          ? (error.message ?? 'Falha ao deslogar')
+          : 'Falha ao deslogar';
+      Fluttertoast.showToast(msg: message);
       return error;
     });
     _getUser();
@@ -316,14 +329,23 @@ class AuthService extends ChangeNotifier {
     String? codBook,
   }) async {
     final now = DateTime.now();
+    final fallbackUserId = userId ?? await _currentRegistrationOrEmpty();
     await firebaseFirestore.collection("log").add(LogModel(
           time: time ?? now.millisecondsSinceEpoch.toString(),
           action: action ?? '',
-          userId: userId ?? await getRegistrationById(usuario!.uid),
+          userId: fallbackUserId,
           userAdmId: userAdmId,
           codBook: codBook,
         ).toMap()
           ..addAll({'timeTs': Timestamp.fromDate(now)}));
+  }
+
+  Future<String> _currentRegistrationOrEmpty() async {
+    final userId = currentUserId;
+    if (userId == null) {
+      return '';
+    }
+    return getRegistrationById(userId);
   }
 
   List<dynamic> listBorrowNow(List userLoans) {
@@ -539,9 +561,14 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<bool> isReservationUser(String bookCod) async {
+    final userId = currentUserId;
+    if (userId == null) {
+      return false;
+    }
+
     return _reservationRepository.hasActiveReservation(
       bookCode: bookCod,
-      userId: usuario!.uid,
+      userId: userId,
     );
   }
 
@@ -550,11 +577,16 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<bool> hasRequest(String bookCod) async {
+    final userId = currentUserId;
+    if (userId == null) {
+      return false;
+    }
+
     // Por enquanto devolver um Bool dizendo se tem o alguma solicitação sua lá
     final requestDoc = await _firstOrNull(firebaseFirestore
         .collection('loan')
         .where('bookBorrowedId', isEqualTo: await getIdByCod(bookCod))
-        .where('userLoan', isEqualTo: usuario!.uid)
+        .where('userLoan', isEqualTo: userId)
         .where('status', isEqualTo: 'Solicitado'));
 
     return requestDoc != null;
@@ -955,7 +987,7 @@ class AuthService extends ChangeNotifier {
     await context.read<AppSettings>().setData('', '');
   }
 
-  void signInWithRegistration(
+  Future<void> signInWithRegistration(
     BuildContext context,
     String registration,
     String password,
@@ -964,6 +996,12 @@ class AuthService extends ChangeNotifier {
     bool succesSignIn = false;
     final normalizedRegistration = registration.trim();
     final rawPassword = password;
+
+    if (await _isOffline()) {
+      Fluttertoast.showToast(
+          msg: 'Sem conexao. Reconecte para realizar o login.');
+      return;
+    }
 
     await _firstOrNull(firebaseFirestore
             .collection('user')
@@ -975,8 +1013,14 @@ class AuthService extends ChangeNotifier {
           return false;
         }
 
-        if (docSnapshot.data()['validated']) {
-          String email = docSnapshot.data()['email'];
+        if ((docSnapshot.data()['validated'] as bool?) ?? false) {
+          final email = (docSnapshot.data()['email'] ?? '').toString();
+          if (email.isEmpty) {
+            Fluttertoast.showToast(
+                msg: 'E-mail não encontrado para matrícula.');
+            return false;
+          }
+
           succesSignIn = await signIn(
             context,
             email,
@@ -990,8 +1034,9 @@ class AuthService extends ChangeNotifier {
         _getUser();
       },
     ).catchError(
-      (e) {
-        Fluttertoast.showToast(msg: e!.message);
+      (error) {
+        Fluttertoast.showToast(
+            msg: 'Falha ao validar matricula. Verifique sua conexao.');
         _getUser();
         return false;
       },
@@ -1014,6 +1059,11 @@ class AuthService extends ChangeNotifier {
     await _auth
         .signInWithEmailAndPassword(email: normalizedEmail, password: senha)
         .then((uid) {
+      if (!context.mounted) {
+        resp = true;
+        return;
+      }
+
       Fluttertoast.showToast(msg: "Logado com sucesso");
       if (isAdm) {
         Navigator.of(context).pushReplacement(

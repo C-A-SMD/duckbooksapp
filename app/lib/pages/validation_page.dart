@@ -122,11 +122,11 @@ class _ValidationPageState extends State<ValidationPage> {
                               child: DataTable2(
                                 columnSpacing: 10,
                                 horizontalMargin: 12,
+                                minWidth: 320,
                                 columns: [
                                   DataColumn2(
-                                    fixedWidth: 110,
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 110,
                                       child: Text(
                                         'Matrícula',
                                         style: FlutterFlowTheme.of(context)
@@ -150,12 +150,8 @@ class _ValidationPageState extends State<ValidationPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
-                                    // fixedWidth: 200,
-                                    fixedWidth: 130,
-
+                                    size: ColumnSize.M,
                                     label: SizedBox(
-                                      width: 130,
                                       child: Text(
                                         'Data do Pedido',
                                         style: FlutterFlowTheme.of(context)
@@ -179,9 +175,8 @@ class _ValidationPageState extends State<ValidationPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 90,
                                       child: Text(
                                         'Status',
                                         style: FlutterFlowTheme.of(context)

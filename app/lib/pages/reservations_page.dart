@@ -109,7 +109,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
             onPressed: () {
               setState(
                 () {
-                  scaffoldKey.currentState!.openDrawer();
+                  scaffoldKey.currentState?.openDrawer();
                 },
               );
             },

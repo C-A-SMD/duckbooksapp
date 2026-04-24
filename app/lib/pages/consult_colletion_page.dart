@@ -129,7 +129,7 @@ class _ConsultPageState extends State<ConsultPage> {
             onPressed: () {
               setState(
                 () {
-                  scaffoldKey.currentState!.openDrawer();
+                  scaffoldKey.currentState?.openDrawer();
                 },
               );
             },

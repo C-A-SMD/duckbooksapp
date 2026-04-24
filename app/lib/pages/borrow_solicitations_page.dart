@@ -131,11 +131,11 @@ class _BorrowSolicitationsPageState extends State<BorrowSolicitationsPage> {
                               child: DataTable2(
                                 columnSpacing: 10,
                                 horizontalMargin: 12,
+                                minWidth: 320,
                                 columns: [
                                   DataColumn2(
-                                    fixedWidth: 135,
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 270,
                                       child: Text(
                                         'Matrícula',
                                         style: FlutterFlowTheme.of(context)
@@ -159,12 +159,8 @@ class _BorrowSolicitationsPageState extends State<BorrowSolicitationsPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
-                                    // fixedWidth: 200,
-                                    fixedWidth: 125,
-
+                                    size: ColumnSize.M,
                                     label: SizedBox(
-                                      width: 105,
                                       child: Text(
                                         'Data do Pedido',
                                         style: FlutterFlowTheme.of(context)
@@ -188,9 +184,8 @@ class _BorrowSolicitationsPageState extends State<BorrowSolicitationsPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 100,
                                       child: Text(
                                         'Status',
                                         style: FlutterFlowTheme.of(context)

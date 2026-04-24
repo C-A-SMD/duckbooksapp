@@ -4,12 +4,12 @@ import 'package:hive/hive.dart';
 class AppSettings extends ChangeNotifier {
   late Box box;
   Map<String, String> _logindata = {
-    'registration': 'Estou',
-    'password': 'Triste',
+    'registration': '',
+    'password': '',
   };
+  bool _isInitialized = false;
 
   Map<String, String> get logindata {
-    _startSetting();
     return _logindata;
   }
 
@@ -22,13 +22,17 @@ class AppSettings extends ChangeNotifier {
   }
 
   Future<void> _startSetting() async {
+    if (_isInitialized) {
+      return;
+    }
+
     await _openbox();
     _readData();
+    _isInitialized = true;
   }
 
   Future<void> _openbox() async {
     box = Hive.box('logindata');
-    _readData();
   }
 
   void _readData() {

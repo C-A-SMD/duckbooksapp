@@ -40,13 +40,12 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
             {
               "books":
                   context.read<AuthService>().listBorrowNow(user["userLoans"]),
-              "isOverdue": await context
-                  .read<AuthService>()
-                  .checkOverdue(user["userLoans"])
+              "isOverdue":
+                  context.read<AuthService>().checkOverdue(user["userLoans"])
             },
           );
           users.add(user);
-          await context.read<AuthService>().checkOverdue(user["userLoans"]);
+          context.read<AuthService>().checkOverdue(user["userLoans"]);
         }
       },
     ).onError((error, stackTrace) {
@@ -130,12 +129,12 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
                               child: DataTable2(
                                 columnSpacing: 10,
                                 horizontalMargin: 10,
+                                minWidth: 320,
                                 sortAscending: true,
                                 columns: [
                                   DataColumn2(
-                                    fixedWidth: 135,
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 270,
                                       child: Text(
                                         'Matrícula',
                                         style: FlutterFlowTheme.of(context)
@@ -159,12 +158,8 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
-                                    // fixedWidth: 200,
-                                    fixedWidth: 125,
-
+                                    size: ColumnSize.S,
                                     label: SizedBox(
-                                      width: 105,
                                       child: Text(
                                         '',
                                         style: FlutterFlowTheme.of(context)
@@ -175,9 +170,8 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
                                     ),
                                   ),
                                   DataColumn2(
-                                    // size: ColumnSize.values.first,
+                                    size: ColumnSize.M,
                                     label: SizedBox(
-                                      width: 100,
                                       child: Text(
                                         'Contato',
                                         style: FlutterFlowTheme.of(context)
